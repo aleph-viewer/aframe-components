@@ -4,30 +4,73 @@
     <script src="THREE.MeshLine.js"></script>
     <script src="components/al-bounding-box.js"></script>
     <script src="components/al-gltf-model.js"></script>
+    <script src="components/al-orbit-control.js"></script>
+<script src="components/al-control-lights.js"></script>
     <script src="utils.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="constants.js"></script>
   </head>
   <body>
     <a-scene
-      renderer="colorManagement: true;">
+      renderer="colorManagement: true; sortObjects: true; antialias: true"
+      vr-mode-ui="enabled: false"
+      light="defaultLightsEnabled: false">
       <a-entity position="0 1.6 -0.5">
-        <a-entity id="src" al-gltf-model="dracoDecoderPath:/; src: https://cdn.glitch.com/299b1845-44ac-4701-bc0f-09a1604b6ed3%2Ffrog.glb?v=1575817229505"></a-entity> -->
+        <a-entity id="src" al-gltf-model="dracoDecoderPath:/; src: https://cdn.glitch.com/299b1845-44ac-4701-bc0f-09a1604b6ed3%2Ffrog.glb?v=1575817229505"></a-entity>
         <!-- <a-entity id="src" al-gltf-model="src: https://nomad-project.co.uk/objects/collection/toy-lion/_toy-lion/toy-lion.gltf"></a-entity> -->
         <a-entity id="boundingBox"></a-entity>
       </a-entity>
-      <a-sky color="#222"></a-sky>
+      <a-sky color="#000"></a-sky>
+      <a-camera
+        id="mainCamera"
+        fov="45"
+        near="0.05"
+        look-controls="enabled: false"
+        far="10000"
+      />
     </a-scene>
     <script>
       const scene = document.querySelector("a-scene");
       const boundingBox = document.getElementById("boundingBox");
+      const camera = document.getElementById("mainCamera");
+
+      // function center(mesh) {
+      //   mesh.geometry.center(); 
+      // }
+
+      function setupBoundingBox(model) {
+        const bb = getBoundingBox(model);
+        const size = new THREE.Vector3();
+        bb.getSize(size);
+        boundingBox.setAttribute("al-bounding-box", "scale:" + stringifyVec3(size));
+      }
+
+      function setupCamera(mesh) {
+        const cameraState = getCameraStateFromMesh(mesh, Constants.zoomFactor, Constants.fov);
+        camera.setAttribute("al-orbit-control",
+          "controlPosition:" + stringifyVec3(cameraState.position) + ";" +
+          "controlTarget:" + stringifyVec3(cameraState.target) + ";" +
+          "minPolarAngle: 0.25;" +
+          "maxPolarAngle: 175;" +
+          "minDistance: 0;" +
+          "screenSpacePanning: true;" +
+          "rotateSpeed: 0.5;" +
+          "zoomSpeed: 1;" +
+          "enableDamping: true;" +
+          "dampingFactor: 0.25;" +
+          "panSpeed: 0.9");
+        camera.setAttribute("al-control-lights", "");
+      }
+
       window.addEventListener("DOMContentLoaded", (event) => {
         scene.addEventListener("al-model-loaded", (e) => {
           const model = e.detail.model;
           const mesh = getMesh(model);
-          mesh.geometry.center();
-          const bb = getBoundingBox(model);
-          const size = new THREE.Vector3();
-          bb.getSize(size);
-          boundingBox.setAttribute("al-bounding-box", "scale:" + AFRAME.utils.coordinates.stringify(size));
+          // mesh.geometry.computeBoundingSphere();
+          // mesh.geometry.computeBoundingBox();
+          //center(mesh);
+          setupBoundingBox(model);
+          setupCamera(mesh);
         }, false);
       });
     </script>

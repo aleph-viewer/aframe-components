@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/aleph-viewer/aframe-components/issues"
   },
-  "homepage": "https://github.com/aleph-viewer/aframe-components#readme"
+  "homepage": "https://github.com/aleph-viewer/aframe-components#readme",
+  "dependencies": {
+    "three": "^0.111.0"
+  }
 }
