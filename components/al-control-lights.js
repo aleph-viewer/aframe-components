@@ -8,8 +8,6 @@ AFRAME.registerComponent("al-control-lights", {
 
   init() {
 
-    console.log("init al-control-lights");
-
     this.bindMethods();
     this.addEventListeners();
     this.tickFunction = AFRAME.utils.throttle(
