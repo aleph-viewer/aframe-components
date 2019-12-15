@@ -1,3 +1,5 @@
 # aframe-components
 
-Work in progress. Aiming to keep in sync with glitch demos here: [https://glitch.com/~aleph-aframe-components](https://glitch.com/~aleph-aframe-components)
+[![Run on Repl.it](https://repl.it/badge/github/aleph-viewer/aframe-components)](https://repl.it/github/aleph-viewer/aframe-components)
+
+🚧 Work in progress 🚧
