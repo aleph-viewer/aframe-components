@@ -15,14 +15,15 @@
       renderer="colorManagement: true; sortObjects: true; antialias: true"
       vr-mode-ui="enabled: false"
       light="defaultLightsEnabled: false">
-      <a-entity position="0 1.6 -0.5">
-        <a-entity id="src" al-gltf-model="dracoDecoderPath:/; src: https://cdn.glitch.com/299b1845-44ac-4701-bc0f-09a1604b6ed3%2Ffrog.glb?v=1575817229505"></a-entity>
-        <!-- <a-entity id="src" al-gltf-model="src: https://nomad-project.co.uk/objects/collection/toy-lion/_toy-lion/toy-lion.gltf"></a-entity> -->
-        <a-entity id="boundingBox"></a-entity>
+      <a-entity id="model-container">
+        <!-- <a-entity id="src" al-gltf-model="dracoDecoderPath:/; src: https://cdn.glitch.com/299b1845-44ac-4701-bc0f-09a1604b6ed3%2Ffrog.glb?v=1575817229505"></a-entity> -->
+        <a-entity id="src" al-gltf-model="src: https://nomad-project.co.uk/objects/collection/toy-lion/_toy-lion/toy-lion.gltf"></a-entity>
+        <!-- <a-entity id="src" al-gltf-model="src: https://cdn.glitch.com/299b1845-44ac-4701-bc0f-09a1604b6ed3%2Fcube.glb?v=1575896904714"></a-entity> -->
+        <a-entity id="bounding-box"></a-entity>
       </a-entity>
       <a-sky color="#000"></a-sky>
       <a-camera
-        id="mainCamera"
+        id="main-camera"
         fov="45"
         near="0.05"
         look-controls="enabled: false"
@@ -31,12 +32,12 @@
     </a-scene>
     <script>
       const scene = document.querySelector("a-scene");
-      const boundingBox = document.getElementById("boundingBox");
-      const camera = document.getElementById("mainCamera");
+      const boundingBox = document.getElementById("bounding-box");
+      const camera = document.getElementById("main-camera");
 
-      // function center(mesh) {
-      //   mesh.geometry.center(); 
-      // }
+      function center(mesh) {
+        mesh.geometry.center(); 
+      }
 
       function setupBoundingBox(model) {
         const bb = getBoundingBox(model);
@@ -58,7 +59,7 @@
           "zoomSpeed: 1;" +
           "enableDamping: true;" +
           "dampingFactor: 0.25;" +
-          "panSpeed: 0.9");
+          "panSpeed: 0.25");
         camera.setAttribute("al-control-lights", "");
       }
 
@@ -68,7 +69,7 @@
           const mesh = getMesh(model);
           // mesh.geometry.computeBoundingSphere();
           // mesh.geometry.computeBoundingBox();
-          //center(mesh);
+          center(mesh);
           setupBoundingBox(model);
           setupCamera(mesh);
         }, false);

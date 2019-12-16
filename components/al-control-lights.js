@@ -2,7 +2,7 @@ AFRAME.registerComponent("al-control-lights", {
   schema: {
     color: { type: "string", default: "#fff" },
     controlsType: { type: "string", default: "orbit" },
-    lightIntensity: { type: "number", default: 0.5 },
+    lightIntensity: { type: "number", default: 0.8 },
     minFrameMS: { type: "number", default: 15 }
   },
 
