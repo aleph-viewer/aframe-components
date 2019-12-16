@@ -9,6 +9,11 @@
     <script src="utils.js"></script>
     <script src="OrbitControls.js"></script>
     <script src="constants.js"></script>
+    <style>
+      body {
+        background: #000;
+      }
+    </style>
   </head>
   <body>
     <a-scene
@@ -21,7 +26,6 @@
         <!-- <a-entity id="src" al-gltf-model="src: https://cdn.glitch.com/299b1845-44ac-4701-bc0f-09a1604b6ed3%2Fcube.glb?v=1575896904714"></a-entity> -->
         <a-entity id="bounding-box"></a-entity>
       </a-entity>
-      <a-sky color="#000"></a-sky>
       <a-camera
         id="main-camera"
         fov="45"
@@ -67,8 +71,6 @@
         scene.addEventListener("al-model-loaded", (e) => {
           const model = e.detail.model;
           const mesh = getMesh(model);
-          // mesh.geometry.computeBoundingSphere();
-          // mesh.geometry.computeBoundingBox();
           center(mesh);
           setupBoundingBox(model);
           setupCamera(mesh);
