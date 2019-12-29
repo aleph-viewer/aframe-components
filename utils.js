@@ -19,30 +19,57 @@ function getMesh(model) {
   return mesh;
 }
 
-function getCameraStateFromMesh(mesh, zoomFactor, fov) {
-  let meshCenter;
+function getCameraStateFromModel(model, zoomFactor, fov) {
+  let center;
   let position;
   let sceneDistance;
 
-  if (mesh) {
-    const geom = mesh.geometry;
-    meshCenter = this.getGeometryCenter(geom);
+  if (model) {
+    const box = getBoundingBox(model);
+    center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3()).length();
+
     sceneDistance =
-      (zoomFactor * geom.boundingSphere.radius) /
+      (zoomFactor * size) /
       Math.tan((fov * Math.PI) / 180);
 
     position = new THREE.Vector3();
-    position.copy(meshCenter);
+    position.copy(center);
     position.z += sceneDistance;
 
     return {
-      target: meshCenter,
+      target: center,
       position: position
     };
   }
 
   return null;
 }
+
+// function getCameraStateFromMesh(mesh, zoomFactor, fov) {
+//   let meshCenter;
+//   let position;
+//   let sceneDistance;
+
+//   if (mesh) {
+//     const geom = mesh.geometry;
+//     meshCenter = this.getGeometryCenter(geom);
+//     sceneDistance =
+//       (zoomFactor * geom.boundingSphere.radius) /
+//       Math.tan((fov * Math.PI) / 180);
+
+//     position = new THREE.Vector3();
+//     position.copy(meshCenter);
+//     position.z += sceneDistance;
+
+//     return {
+//       target: meshCenter,
+//       position: position
+//     };
+//   }
+
+//   return null;
+// }
 
 function getGeometryCenter(geometry) {
   let geom;
