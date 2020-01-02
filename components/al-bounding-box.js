@@ -29,7 +29,7 @@ AFRAME.registerComponent("al-bounding-box", {
 
     state.box.setFromCenterAndSize(new THREE.Vector3(0, 0, 0), scale);
 
-    // Add a second mesh for raycasting in volume mode
+    // Add a second mesh for raycasting against volumes
     const geometry = new THREE.BoxGeometry(scale.x, scale.y, scale.z);
     const material = new THREE.MeshBasicMaterial({
       color: this.data.color,

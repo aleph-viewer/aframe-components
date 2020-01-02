@@ -82,6 +82,24 @@ function getGeometryCenter(geometry) {
   return geom.boundingSphere.center;
 }
 
+function lookToFrustrumSpace(
+    object,
+    camera,
+    worldPosition,
+    cameraPosition
+  ) {
+    const cameraDirection = new THREE.Vector3();
+    camera.getWorldDirection(cameraDirection);
+
+    const distance = cameraPosition.distanceTo(new THREE.Vector3(0, 0, 0));
+    const lookPlane = new THREE.Plane(cameraDirection, distance);
+
+    const frustrumDirection = new THREE.Vector3();
+    lookPlane.projectPoint(worldPosition, frustrumDirection);
+
+    object.lookAt(frustrumDirection);
+  }
+
 function objectToVector3(vec) {
   const res = new THREE.Vector3();
   res.x = vec.x;
