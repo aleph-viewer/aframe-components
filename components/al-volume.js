@@ -12,15 +12,23 @@ const AlVolumeCastType = {
   DRAG: "drag"
 }
 
+const DisplayMode = {
+  SLICES: "slices",
+  VOLUME: "volume"
+}
+
 AFRAME.registerComponent("al-volume", {
   schema: {
+    borderColor: { type: "string", default: "#00b0ff" },
     controlsType: { type: "string" },
-    displayMode: { type: "string" },
+    displayMode: { type: "string", default: DisplayMode.VOLUME },
+    far: { type: "number", default: 10000 },
     slicesIndex: { type: "number" },
     slicesOrientation: { type: "string" },
     src: { type: "string" },
     srcLoaded: { type: "boolean" },
     volumeSteps: { type: "number" },
+    volumeStepsDisplay: { type: "number", default: 800 },
     volumeWindowCenter: { type: "number" },
     volumeWindowWidth: { type: "number" }
   },
@@ -28,7 +36,7 @@ AFRAME.registerComponent("al-volume", {
   init() {
     this.tickFunction = AFRAME.utils.throttle(
       this.tickFunction,
-      Constants.minFrameMS,
+      this.data.minFrameMS,
       this
     );
 
@@ -50,9 +58,9 @@ AFRAME.registerComponent("al-volume", {
 
     this.createBufferTexture();
 
-    this.debouncedRenderBufferScene = EventUtils.debounce(
+    this.debouncedRenderBufferScene = debounce(
       this.renderBufferScene,
-      Constants.minFrameMS
+      this.data.minFrameMS
     ).bind(this);
   },
 
@@ -129,7 +137,7 @@ AFRAME.registerComponent("al-volume", {
       this.state.stackhelper,
       camPos,
       camDir,
-      Constants.camera.far,
+      this.data.far,
       hitPosition,
       hitNormal
     );
@@ -236,7 +244,7 @@ AFRAME.registerComponent("al-volume", {
       case DisplayMode.SLICES: {
         state.stackhelper = new AMI.StackHelper(state.stack);
         state.stackhelper.bbox.visible = false;
-        state.stackhelper.border.color = Constants.colors.blue;
+        state.stackhelper.border.color = this.data.borderColor;
         break;
       }
       case DisplayMode.VOLUME: {
@@ -397,13 +405,13 @@ AFRAME.registerComponent("al-volume", {
 
     // update the stackhelper
     (this.state
-      .stackhelper as AMI.VolumeRenderHelper).windowCenter = windowCenter;
+      .stackhelper).windowCenter = windowCenter;
     (this.state
-      .stackhelper as AMI.VolumeRenderHelper).windowWidth = windowWidth;
+      .stackhelper).windowWidth = windowWidth;
   },
 
   // tslint:disable-next-line: no-any
-  update(oldData: any) {
+  update(oldData) {
     const state = this.state;
     const el = this.el;
 
@@ -439,9 +447,9 @@ AFRAME.registerComponent("al-volume", {
             false
           );
           this.state.volumeSteps = defaultVolumeSteps;
-        }, Constants.volumeStepsDelay);
+        }, this.data.volumeStepsDelay);
       } else {
-        (this.el.sceneEl.object3D as THREE.Scene).background = null;
+        this.el.sceneEl.object3D.background = null;
       }
     }
 
@@ -469,7 +477,7 @@ AFRAME.registerComponent("al-volume", {
             this.state.volumeSteps = this.denormaliseVolumeSteps(
               this.data.volumeSteps
             );
-          }, Constants.volumeStepsDelay);
+          }, this.data.volumeStepsDelay);
         }
 
         // if the volumeSteps changed

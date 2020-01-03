@@ -1,6 +1,8 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    <script src="ami.min.js"></script>
+    <script src="VolumetricLoader.js"></script>
     <script src="THREE.MeshLine.js"></script>
     <script src="components/al-bounding-box.js"></script>
     <script src="components/al-gltf-model.js"></script>
@@ -17,6 +19,11 @@
     </style>
   </head>
   <body>
+    <div id="lut-container">
+      <div id="lut-min">0.0</div>
+      <div id="lut-canvases" />
+      <div id="lut-max">1.0</div>
+    </div>
     <a-scene
       renderer="colorManagement: true; sortObjects: true; antialias: true"
       vr-mode-ui="enabled: false"
@@ -78,15 +85,24 @@
       }
 
       window.addEventListener("DOMContentLoaded", (event) => {
-        scene.addEventListener("al-model-loaded", (e) => {
-          const model = e.detail.model;
-          const mesh = getMesh(model);
-          //center(mesh)
-          center(model);
-          setupBoundingBox(model);
-          setupCamera(model);
-        }, false);
+        scene.addEventListener("al-model-loaded", modelLoaded, false);
+        scene.addEventListener("al-volume-loaded", volumeLoaded, false);
       });
+
+      function modelLoaded(e) {
+        const model = e.detail.model;
+        center(model);
+        setupBoundingBox(model);
+        setupCamera(model);
+      }
+
+      function volumeLoaded(e) {
+        console.log("volume loaded");
+        const model = getMesh(e.detail);
+        center(model);
+        setupBoundingBox(model);
+        setupCamera(model);
+      }
     </script>
   </body>
 </html>

@@ -7,7 +7,7 @@ AFRAME.registerComponent("al-bounding-box", {
     topLayerRenderOrder: { type: "number", default: 999 }
   },
 
-  init(){
+  init() {
     this.bindMethods();
     this.addEventListeners();
 
