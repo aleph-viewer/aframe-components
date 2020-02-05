@@ -1,21 +1,17 @@
-<html>
+í<html>
   <head>
     <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script> -->
     <script src="THREE.MeshLine.js"></script>
     <script src="components/al-bounding-box.js"></script>
     <script src="components/al-gltf-model.js"></script>
     <script src="components/al-orbit-control.js"></script>
     <script src="components/al-control-lights.js"></script>
-    <script src="components/al-cube-env-map.js"></script>
-    <!-- <script src="components/al-env-map.js"></script> -->
     <script src="utils.js"></script>
     <script src="OrbitControls.js"></script>
-    <script src="RGBELoader.js"></script>
     <script src="constants.js"></script>
     <style>
       body {
-        background: #70bcd1;
+        background: #000;
       }
     </style>
   </head>
@@ -25,15 +21,7 @@
       vr-mode-ui="enabled: false"
       light="defaultLightsEnabled: false">
       <a-entity id="model-container">
-        <a-entity id="src" al-gltf-model="src: https://aleph-gltf-models.netlify.com/white-claw-can.glb" al-cube-env-map="path: /assets/skybox/; extension: jpg; reflectivity: 1;"></a-entity>
-
-        <!-- <a-entity id="src" al-gltf-model="src: https://aleph-gltf-models.netlify.com/white-claw-can.glb" al-env-map="path: /assets/hdr/; hdr:royal_esplanade_1k.hdr"></a-entity> -->
-
-        <!-- <a-entity gltf-model="src: url(https://whiteclaw.netlify.com/white-claw-can.glb);" cube-env-map="path: assets/skybox/ extension: jpg; reflectivity: 1;"></a-entity> -->
-
-        <!-- <a-entity gltf-model="src: url(https://whiteclaw.netlify.com/white-claw-can.glb);" ></a-entity> -->
-
-        <!-- <a-sphere position=".2 0 0" scale=".1 .1 .1" color="ffc65d" material="metalness: 1; roughness: 0; envMap: #sky"></a-sphere> -->
+        <a-entity id="src" al-gltf-model="src: https://whiteclaw.netlify.com/white-claw-can.glb"></a-entity>
         <!-- <a-entity id="src" al-gltf-model="src: https://aleph-gltf-models.netlify.com/Frog.glb"></a-entity> -->
         <!-- <a-entity id="src" al-gltf-model="src: https://aleph-gltf-models.netlify.com/FlightHelmet.glb"></a-entity> -->
         <!-- <a-entity id="src" al-gltf-model="src: https://aleph-gltf-models.netlify.com/BoxTextured.glb"></a-entity> -->
