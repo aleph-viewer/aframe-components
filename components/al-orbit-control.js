@@ -1,3 +1,10 @@
+const AlControlEvents = {
+  INTERACTION: "al-control-interaction",
+  INTERACTION_FINISHED:  "al-control-interaction-finished",
+  ANIMATION_STARTED: "al-controls-animation-started",
+  ANIMATION_FINISHED: "al-controls-animation-finished"
+}
+
 AFRAME.registerComponent("al-orbit-control", {
   dependencies: ["camera"],
 
@@ -30,13 +37,22 @@ AFRAME.registerComponent("al-orbit-control", {
   },
 
   bindMethods() {
-    this.mouseDown = this.mouseDown.bind(this);
-    this.mouseMove = this.mouseMove.bind(this);
-    this.mouseUp = this.mouseUp.bind(this);
     this.canvasWheel = this.canvasWheel.bind(this);
     this.getCameraState = this.getCameraState.bind(this);
     this.handleAnimationCache = this.handleAnimationCache.bind(this);
+    this.mouseDown = this.mouseDown.bind(this);
+    this.mouseMove = this.mouseMove.bind(this);
+    this.mouseUp = this.mouseUp.bind(this);
+    this.objectToVector3 = this.objectToVector3.bind(this);
     this.onWheel = this.onWheel.bind(this);
+  },
+
+  objectToVector3(vec) {
+    const res = new THREE.Vector3();
+    res.x = vec.x;
+    res.y = vec.y;
+    res.z = vec.z;
+    return res;
   },
 
   addListeners() {
@@ -180,8 +196,9 @@ AFRAME.registerComponent("al-orbit-control", {
     );
 
     // Convert the controlPosition & controlTarget Objects into THREE.Vector3
-    const controlPosition = objectToVector3(data.controlPosition);
-    const controlTarget = objectToVector3(data.controlTarget);
+    console.log("convert");
+    const controlPosition = this.objectToVector3(data.controlPosition);
+    const controlTarget = this.objectToVector3(data.controlTarget);
 
     controls.object.position.copy(controlPosition);
     el.getObject3D("camera").position.copy(controlPosition);
@@ -203,7 +220,7 @@ AFRAME.registerComponent("al-orbit-control", {
     this.addListeners();
 
     // wait a frame before emitting initialised event
-    waitOneFrame(() => {
+    setTimeout(() => {
       this.el.sceneEl.emit(
         AlControlEvents.INTERACTION,
         {
@@ -211,8 +228,8 @@ AFRAME.registerComponent("al-orbit-control", {
           needsRender: false
         },
         false
-      ), Constants.minFrameMS;
-    });
+      );
+    }, this.data.minFrameMS);
   },
 
   getCameraState() {
@@ -226,7 +243,7 @@ AFRAME.registerComponent("al-orbit-control", {
     const controls = this.state.controls;
     const data = this.data;
 
-    controls.target = objectToVector3(data.controlTarget);
+    controls.target = this.objectToVector3(data.controlTarget);
     controls.autoRotate = data.autoRotate;
     controls.autoRotateSpeed = data.autoRotateSpeed;
     controls.dampingFactor = data.dampingFactor;
@@ -249,7 +266,7 @@ AFRAME.registerComponent("al-orbit-control", {
     controls.zoomSpeed = data.zoomSpeed;
     this.el
       .getObject3D("camera")
-      .position.copy(objectToVector3(data.controlPosition));
+      .position.copy(this.objectToVector3(data.controlPosition));
   },
 
   tickFunction() {
@@ -306,10 +323,3 @@ AFRAME.registerComponent("al-orbit-control", {
     state = null;
   }
 });
-
-const AlControlEvents = {
-  INTERACTION: "al-control-interaction",
-  INTERACTION_FINISHED:  "al-control-interaction-finished",
-  ANIMATION_STARTED: "al-controls-animation-started",
-  ANIMATION_FINISHED: "al-controls-animation-finished"
-}

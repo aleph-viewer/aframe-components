@@ -1,6 +1,6 @@
 AFRAME.registerComponent("al-bounding-box", {
   schema: {
-    boundingBoxWidth: { type: "number", default: 1.5 },
+    boundingBoxWidth: { type: "number", default: 2 },
     color: { type: "string", default: "#fff" },
     scale: { type: "string" },
     enabled: { type: "boolean", default: true },

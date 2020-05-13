@@ -5,7 +5,8 @@ const AlNodeSpawnerEvents = {
 
 AFRAME.registerComponent("al-node-spawner", {
   schema: {
-    graphEnabled: { type: "boolean" }
+    graphEnabled: { type: "boolean" },
+    minFrameMS: { type: "number", default: 15 }
   },
 
   init() {
@@ -87,9 +88,9 @@ AFRAME.registerComponent("al-node-spawner", {
   },
 
   canvasMouseUp(_event) {
-    waitOneFrame(() => {
+    setTimeout(() => {
       this.state.left = false;
-    });
+    }, this.data.minFrameMS);
   },
 
   pointerOver(_event) {

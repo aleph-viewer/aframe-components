@@ -2,22 +2,22 @@ function getBoundingBox(obj) {
   return new THREE.Box3().setFromObject(obj);
 }
 
-function getMesh(model) {
-  let mesh = null;
+// function getMesh(model) {
+//   let mesh = null;
 
-  if (model instanceof THREE.Mesh) {
-    mesh = model;
-  } else if (model) {
-    model.traverse(child => {
-      if (child instanceof THREE.Mesh && mesh === null) {
-        mesh = child;
-        return mesh;
-      }
-    });
-  }
+//   if (model instanceof THREE.Mesh) {
+//     mesh = model;
+//   } else if (model) {
+//     model.traverse(child => {
+//       if (child instanceof THREE.Mesh && mesh === null) {
+//         mesh = child;
+//         return mesh;
+//       }
+//     });
+//   }
 
-  return mesh;
-}
+//   return mesh;
+// }
 
 function getCameraStateFromModel(model, zoomFactor, fov) {
   let center;
@@ -71,16 +71,16 @@ function getCameraStateFromModel(model, zoomFactor, fov) {
 //   return null;
 // }
 
-function getGeometryCenter(geometry) {
-  let geom;
-  if (geometry instanceof THREE.BufferGeometry) {
-    geom = new THREE.Geometry().fromBufferGeometry(geometry);
-  } else {
-    geom = geometry;
-  }
-  geom.computeBoundingSphere();
-  return geom.boundingSphere.center;
-}
+// function getGeometryCenter(geometry) {
+//   let geom;
+//   if (geometry instanceof THREE.BufferGeometry) {
+//     geom = new THREE.Geometry().fromBufferGeometry(geometry);
+//   } else {
+//     geom = geometry;
+//   }
+//   geom.computeBoundingSphere();
+//   return geom.boundingSphere.center;
+// }
 
 function lookToFrustrumSpace(
     object,

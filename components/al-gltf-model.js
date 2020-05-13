@@ -9,8 +9,8 @@ AFRAME.registerComponent("al-gltf-model", {
     this.addEventListeners();
     this.model = null;
 
-    this.loader = new threeAny.GLTFLoader();
-    this.dracoLoader = new threeAny.DRACOLoader();
+    this.loader = new THREE.GLTFLoader();
+    this.dracoLoader = new THREE.DRACOLoader();
     this.dracoLoader.setDecoderPath(this.data.dracoDecoderPath);
     this.loader.setDRACOLoader(this.dracoLoader);
   },
