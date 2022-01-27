@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/aleph-viewer/aframe-components#readme",
   "dependencies": {
-    "three": "^0.111.0"
+    "three": "^0.137.0"
   }
 }
